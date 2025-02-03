@@ -1,100 +1,92 @@
 using System;
 using System.Collections.Generic;
 
-namespace YouTubeVideoTracker
+class Comment
 {
-    // this is the Comment class to track commenter's name and comment text
-    public class Comment
+    public string CommenterName { get; set; }
+    public string Text { get; set; }
+
+    public Comment(string commenterName, string text)
     {
-        public string CommenterName { get; set; }
-        public string CommentText { get; set; }
-
-        public Comment(string commenterName, string commentText)
-        {
-            CommenterName = commenterName;
-            CommentText = commentText;
-        }
-
-        public override string ToString()
-        {
-            return $"{CommenterName}: {CommentText}";
-        }
+        CommenterName = commenterName;
+        Text = text;
     }
 
-    // this is the video class to store information about a video and its comments
-    public class Video
+    public override string ToString()
     {
-        public string Title { get; set; }
-        public string Author { get; set; }
-        public int LengthSeconds { get; set; }
-        private List<Comment> Comments { get; set; }
+        return $"{CommenterName}: {Text}";
+    }
+}
 
-        public Video(string title, string author, int lengthSeconds)
-        {
-            Title = title;
-            Author = author;
-            LengthSeconds = lengthSeconds;
-            Comments = new List<Comment>();
-        }
+class Video
+{
+    public string Title { get; set; }
+    public string Author { get; set; }
+    public int Length { get; set; } // Length in seconds
+    private List<Comment> Comments { get; set; }
 
-        public void AddComment(Comment comment)
-        {
-            Comments.Add(comment);
-        }
-
-        public int GetCommentCount()
-        {
-            return Comments.Count;
-        }
-
-        public override string ToString()
-        {
-            int minutes = LengthSeconds / 60;
-            int seconds = LengthSeconds % 60;
-            string lengthFormatted = $"{minutes}m {seconds}s";
-
-            string result = $"Title: {Title}\nAuthor: {Author}\nLength: {lengthFormatted}\nComments ({GetCommentCount()}):";
-
-            foreach (var comment in Comments)
-            {
-                result += $"\n  {comment}";
-            }
-            return result;
-        }
+    public Video(string title, string author, int length)
+    {
+        Title = title;
+        Author = author;
+        Length = length;
+        Comments = new List<Comment>();
     }
 
-    class Program
+    public void AddComment(Comment comment)
     {
-        static void Main(string[] args)
+        Comments.Add(comment);
+    }
+
+    public int GetCommentCount()
+    {
+        return Comments.Count;
+    }
+
+    public void DisplayVideoDetails()
+    {
+        Console.WriteLine($"Title: {Title}");
+        Console.WriteLine($"Author: {Author}");
+        Console.WriteLine($"Length: {Length} seconds");
+        Console.WriteLine($"Number of Comments: {GetCommentCount()}");
+        Console.WriteLine("Comments:");
+        foreach (var comment in Comments)
         {
-            // Create sample videos
-            var video1 = new Video("Python Programming Basics", "TechGuru", 300);
-            var video2 = new Video("Top 10 Gadgets of 2025", "GadgetFan", 600);
-            var video3 = new Video("How to Cook Pasta Perfectly", "ChefExtraordinaire", 420);
+            Console.WriteLine($"  - {comment}");
+        }
+        Console.WriteLine();
+    }
+}
 
-            // Add comments to video1
-            video1.AddComment(new Comment("Alice", "Great explanation!"));
-            video1.AddComment(new Comment("Bob", "Very helpful, thanks!"));
-            video1.AddComment(new Comment("Charlie", "What about advanced topics?"));
+class Program
+{
+    static void Main(string[] args)
+    {
+        // Create sample videos
+        Video video1 = new Video("Understanding C# Classes", "John Doe", 600);
+        Video video2 = new Video("Top 10 Programming Tips", "Jane Smith", 720);
+        Video video3 = new Video("Mastering Data Structures", "Alex Johnson", 900);
 
-            // Add comments to video2
-            video2.AddComment(new Comment("Dana", "Love these recommendations!"));
-            video2.AddComment(new Comment("Eve", "Can you do a 2026 list?"));
+        // Add comments to each video
+        video1.AddComment(new Comment("Alice", "Great explanation!"));
+        video1.AddComment(new Comment("Bob", "Very helpful, thanks!"));
+        video1.AddComment(new Comment("Charlie", "This cleared up my confusion."));
 
-            // Add comments to video3
-            video3.AddComment(new Comment("Frank", "Delicious recipe!"));
-            video3.AddComment(new Comment("Grace", "Tried this, and it worked perfectly."));
-            video3.AddComment(new Comment("Hannah", "Any tips for gluten-free pasta?"));
+        video2.AddComment(new Comment("Dave", "Nice tips, will try them out."));
+        video2.AddComment(new Comment("Eve", "Could you cover more advanced topics next time?"));
+        video2.AddComment(new Comment("Frank", "Loved this video, learned a lot."));
 
-            // Store videos in a list
-            var videos = new List<Video> { video1, video2, video3 };
+        video3.AddComment(new Comment("Grace", "Excellent content."));
+        video3.AddComment(new Comment("Heidi", "Perfect for my exam prep."));
+        video3.AddComment(new Comment("Ivan", "Amazing work, thank you!"));
 
-            // Display video information
-            foreach (var video in videos)
-            {
-                Console.WriteLine(video);
-                Console.WriteLine(new string('-', 40));
-            }
+        // Store videos in a list
+        List<Video> videos = new List<Video> { video1, video2, video3 };
+
+        // Display video details and comments
+        foreach (var video in videos)
+        {
+            video.DisplayVideoDetails();
         }
     }
 }
