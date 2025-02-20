@@ -18,3 +18,6 @@ class Program
         }
     }
 }
+// exceeded this by adding two additional goal types:
+//Progress Goals: These track gradual progress toward a larger goal.
+//Negative Goals: Instead of earning points, these deduct points when you record them.
