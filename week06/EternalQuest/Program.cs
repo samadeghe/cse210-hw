@@ -18,6 +18,23 @@ class Program
         }
     }
 }
-// exceeded this by adding two additional goal types:
-//Progress Goals: These track gradual progress toward a larger goal.
-//Negative Goals: Instead of earning points, these deduct points when you record them.
+// using System;
+using System.Collections.Generic;
+
+class Program
+{
+    static void Main()
+    {
+        List<Activity> activities = new List<Activity>
+        {
+            new Running(new DateTime(2022, 11, 3), 30, 4.8),
+            new Cycling(new DateTime(2022, 11, 3), 45, 20.0),
+            new Swimming(new DateTime(2022, 11, 3), 25, 40)
+        };
+
+        foreach (var activity in activities)
+        {
+            Console.WriteLine(activity.GetSummary());
+        }
+    }
+}
